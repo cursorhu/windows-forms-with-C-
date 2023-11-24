@@ -4,4 +4,4 @@
 
 ## 环境
 Visual Studio 2019 Community Version.
-.Net 4.7
+.Net 4.7 (>= .Net 4.5即可)
