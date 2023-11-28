@@ -36,4 +36,38 @@ VS创建windows forms窗口程序，项目文件默认包含：
     Image的set和get方法: 隐藏Image数据，只提供方法。当引用Image对象（读Image）则调用get方法，如果是赋值Image则调用set方法
     因此对PictureBox.Image赋值时会调用set方法去更新Image属性，然后Binding会同步更新GUI界面的图片。
 
+## chapter2
+1. 项目属性
+
+properties的AssemblyInfo.cs包含项目信息配置（即右键exe的详细信息内容）
+GUI exe工具可以读取此信息，例如读AssemblyVersion并显示到窗口名：
+
+```
+System.Version ver = new System.Version(System.Windows.Forms.Application.ProductVersion);
+this.Text = System.String.Format("ImageLoader {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
+```
+
+关于String.Format的语法参考：
+https://learn.microsoft.com/en-us/dotnet/api/system.string.format?view=net-8.0
+
+需要特别注意：
+控件的属性位于InitializeComponent内根据窗体编辑器自动生成的，不要在InitializeComponent内改动代码，否则一旦编辑了窗体编辑器就会被覆盖
+在MainForm主类调用完InitializeComponent之后改代码，覆盖自动生成的属性代码。
+
+2. try-catch异常处理
+对于资源的申请一般要try-catch, 其作用：保证能处理各种异常，并确保异常发生时程序能退出，而不是崩溃或挂起影响用户操作。这也是try-catch优于使用ErrorCode处理异常的原因：
+```
+Exceptions provide a solution to these problems by forcing a programmer to deal
+with them, and provide guarantees that the program will exit if they do not.
+```
+实测此项目中Bitmap OpenFile如果打开的文件不是图片类型，例如pdf文件，程序无响应导致系统死机后再退出；如果有try-catch就不会死机，弹窗报错误信息之后还可以继续选择图片并正常打开.
+
+.Net默认使用ex作为Exception变量名，因为e已经默认为event事件名：
+```
+Event handlers in Visual Studio .NET tend to use
+an “e” parameter for the event parameter to the call. To
+ensure we avoid a conflict, we will use ex as a standard
+variable name for an Exception object
+```
+
 

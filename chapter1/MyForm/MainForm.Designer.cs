@@ -62,10 +62,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 441);
-            this.Controls.Add(this.pboxPhoto);
             this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.pboxPhoto);
             this.Name = "ImageLoader";
-            this.Text = "Image Loader";
+            this.Text = "ImageLoader";
             ((System.ComponentModel.ISupportInitialize)(this.pboxPhoto)).EndInit();
             this.ResumeLayout(false);
 
