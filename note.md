@@ -70,4 +70,17 @@ ensure we avoid a conflict, we will use ex as a standard
 variable name for an Exception object
 ```
 
+## chapter3
+Menu有两类：MainMenu和ContextMenu; VS2019中控件名分别是MenuStrip和ContextMenuStrip. 不叫MainMenu.
+This class is not available in .NET Core 3.1 and later versions. Use ToolStripMenuItem instead, which replaces the MenuItem control.
+
+添加快捷键实现快速选择和快速执行MenuItem：
+- 使用“&+字符”定义MenuItem名称，可以支持快捷键“Alt+字符”选择此MenuItem(但不执行). 例如&File, E&xit
+- 使用Shortcut property设置MenuItem, 支持快捷键例如Ctrl+Shortcut执行此MenuItem.
+
+添加event handler有两种方式：
+- 对于点击事件(Click)，直接双击MenuItem，自动生成对于的Click事件回调函数XXX_Click. 这种方式只支持鼠标或键盘快捷键.
+- 更通用的事件添加方式：控件->右键->属性窗口->改为事件窗口->选择某事件并注册对应的回调函数. 对于多个MenuItem共享一个event hander一般使用此方式.
+
+
 
