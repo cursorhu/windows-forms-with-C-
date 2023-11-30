@@ -98,3 +98,18 @@ Popup事件(打开时更新状态):
 参考https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-copy-toolstripmenuitems?view=netframeworkdesktop-4.8
 注意ToolStripMenuItems的事件不会被复制粘贴到ContextMenuItems，需要在Design GUI手动注册事件.
 例如ContextMenuItems要支持_ChildClick和_Popup事件：右键ContextMenuItems的ImageSizeMode目录项，切换到事件界面，添加_ChildClick和_Popup回调函数.
+
+## chapter4
+.Net高版本用StatusStrip取代了StatusBar, 参考：
+https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/statusbar-control-overview-windows-forms?view=netframeworkdesktop-4.8
+
+如何添加Panel:
+https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.statusstrip?view=windowsdesktop-7.0
+The default StatusStrip has no panels. To add panels to a StatusStrip, use the ToolStripItemCollection.AddRange method, or use the StatusStrip Items Collection Editor at design time to add, remove, or reorder items and modify properties.
+直接在StatusBar添加多个子控件, 或者右键StatusBar选择“编辑项”，打开Collection Editor添加子控件项.
+添加完毕可以在StatusBar属性的Items中查看Panel集合；多个Panel的间隔通过属性->Margin去调整
+
+图片显示比例Image percent：
+StatusStrip没有DrawItem，没实现这部分；StatusBarDrawItemEventArgs也用_ChildClick去替代.
+状态栏中图片显示比例(Image percent)的计算逻辑修改为：显示图片大小和实际图片大小的比例，取决于当前pixBox的SizeMode.
+原书的计算逻辑是窗口大小和实际图片的比例，如果显示比例是1:1但窗口大小比图片小，比例小于100%不符合逻辑, 应该显示为100%.
