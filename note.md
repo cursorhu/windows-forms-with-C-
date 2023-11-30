@@ -80,7 +80,21 @@ This class is not available in .NET Core 3.1 and later versions. Use ToolStripMe
 
 添加event handler有两种方式：
 - 对于点击事件(Click)，直接双击MenuItem，自动生成对于的Click事件回调函数XXX_Click. 这种方式只支持鼠标或键盘快捷键.
-- 更通用的事件添加方式：控件->右键->属性窗口->改为事件窗口->选择某事件并注册对应的回调函数. 对于多个MenuItem共享一个event hander一般使用此方式.
+- 更通用的事件添加方式：控件->右键->属性窗口->改为事件窗口->选择某事件并注册对应的回调函数. 
 
+event hander回调函数的共享：
+- 原理是使用index管理一类相关的MenuItem
+- 多个MenuItem共享一个event hander，需要手动指定同一个回调函数(见代码_ChildClick).
+- 注意_ChildClick和书中基于MenuItem实现不一样，ToolStripMenuItem没有Index属性，用Owner.Items.IndexOf()获取index.
 
+Popup事件(打开时更新状态):
+- ToolStripMenuItems没有Popup事件，使用DropDownOpening事件，用于子目录打开时做的操作(=Popup)
+- ToolStripMenuItem和书中的MenuItem有实现差异：使用DropDownItems获取ToolStripMenuItem的子目录项；使用IndexOf获取index.
 
+拷贝ToolStripMenuItems到ContextMenuItems(包括事件)：
+- 书中的CloneMenu方法不适用于ToolStripMenuItems
+- 我的尝试见DefineContextMenu(), 使用AddRange能创建ContextMenuItems，但会使ToolStripMenuItems消失
+- 最终解决办法：在Design GUI工具栏创建ContextMenuItems后，直接ctrl+c复制ToolStripMenuItems，再ctrl+v粘贴到到ContextMenuItems.
+参考https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-copy-toolstripmenuitems?view=netframeworkdesktop-4.8
+注意ToolStripMenuItems的事件不会被复制粘贴到ContextMenuItems，需要在Design GUI手动注册事件.
+例如ContextMenuItems要支持_ChildClick和_Popup事件：右键ContextMenuItems的ImageSizeMode目录项，切换到事件界面，添加_ChildClick和_Popup回调函数.

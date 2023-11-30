@@ -49,7 +49,7 @@ namespace MyForm
             //this.zoomToolStripMenuItem.Click += new System.EventHandler(this.imageToolStripMenuItem_ChildClick);
             //this.autoSizeToolStripMenuItem.Click += new System.EventHandler(this.imageToolStripMenuItem_ChildClick);
 
-            DefineContextMenu();
+            //DefineContextMenu();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -84,13 +84,14 @@ namespace MyForm
 
         private void imageToolStripMenuItem_ChildClick(object sender, EventArgs e)
         {
-            //Verify sender is type of MenuItem object
-            if (sender is MenuItem)
+            //Verify sender is type of ToolStripMenuItem object
+            //Use ToolStripMenuItem instead of MenuItem for .net >= 3.1
+            if (sender is ToolStripMenuItem)
             {
                 //The Index property is not available in the object class, 
-                //so we need to convert our variable of type object into a variable of type MenuItem (downcast)
-                MenuItem mi = (MenuItem)sender;
-                _selectedImageMode = mi.Index;
+                //so we need to convert our variable of type object into a variable of type ToolStripMenuItem (downcast)
+                ToolStripMenuItem mi = (ToolStripMenuItem)sender;
+                _selectedImageMode = mi.Owner.Items.IndexOf(mi);
                 //set property SizeMode based on selected index.
                 pboxPhoto.SizeMode = modeMenuArray[_selectedImageMode];
                 //Invalidate the PictureBox control to redisplay the image.
@@ -100,28 +101,25 @@ namespace MyForm
 
         private void imageToolStripMenuItem_Popup(object sender, EventArgs e)
         {
-            //Menu variable here could also be defined as a MenuItem object
-            if (sender is Menu)
+            if (sender is ToolStripMenuItem)
             {
                 //Determine if an image is loaded
                 bool bImageloaded = (pboxPhoto.Image != null);
-                Menu m = (Menu)sender;
+                ToolStripMenuItem m = (ToolStripMenuItem)sender;
                 //Iterate over each sub-menu item
-                foreach (MenuItem mi in m.MenuItems)
+                foreach (ToolStripMenuItem mi in m.DropDownItems)
                 {
                     mi.Enabled = bImageloaded;
-                    mi.Checked = (this._selectedImageMode == mi.Index);
+                    mi.Checked = (this._selectedImageMode == mi.Owner.Items.IndexOf(mi));
                 }
             }
         }
 
-        private void DefineContextMenu()
-        {
-            // Copy the View menu into ctxtMenuView
-            //ToolStripMenuItem ctxsmi = new ToolStripMenuItem("View", null, this.viewToolStripMenuItem);
-            ToolStripMenuItem ctxsmi = this.viewToolStripMenuItem;
-
-            ctxMenuStripView.Items.AddRange(ctxsmi.DropDownItems);
-        }
+        //private void DefineContextMenu()
+        //{
+        //    // Copy the View menu into ctxtMenuView
+        //    ToolStripMenuItem ctxsmi = this.viewToolStripMenuItem;
+        //    viewContextMenuStrip.Items.AddRange(ctxsmi.DropDownItems);
+        //}
     }
 }
