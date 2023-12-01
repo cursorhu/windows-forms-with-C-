@@ -113,3 +113,12 @@ The default StatusStrip has no panels. To add panels to a StatusStrip, use the T
 StatusStrip没有DrawItem，没实现这部分；StatusBarDrawItemEventArgs也用_ChildClick去替代.
 状态栏中图片显示比例(Image percent)的计算逻辑修改为：显示图片大小和实际图片大小的比例，取决于当前pixBox的SizeMode.
 原书的计算逻辑是窗口大小和实际图片的比例，如果显示比例是1:1但窗口大小比图片小，比例小于100%不符合逻辑, 应该显示为100%.
+
+## chapter5
+1. 创建库项目的方法：
+右键WindowsForms解决方案->添加->新建项目->库类型项目->选择类库(.netframework .dll类型)
+注意：不建议在VS主界面新建项目，会产生独立的解决方案；注意区分.dll类库和控件库
+
+1. 其他项目引用该库(以WindowsForms为例)：
+右键WindowsForms项目->添加->引用->项目->选择库项目
+C#没有include或者import, 引用(reference)实际就是C#使用库函数/包的方式；例如WindowsForms项目默认引用了System包，在代码直接using System就能调用其方法.
